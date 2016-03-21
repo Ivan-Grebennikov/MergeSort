@@ -1,89 +1,32 @@
 #include <iostream>
-#include <wx/utils.h>
-#include <wx/init.h>
 #include <vector>
+#include <wx/init.h>
+#include <wx/time.h>
 #include <include/gmthreadpool.h>
-#include <include/gmmaintask.h>
-#include <include/gmscripttask.h>
+#include <include/gmmergesorttask.h>
+#include <include/mergesortfuncs.h>
 
-wxMutex streamMutex;
+#define ARRAY_SIZE 1000000
+#define THREADS_NUM
 
-int gridmd_main(int argc, char* argv[]) {
-    wxSleep(1);
-    wxMutexLocker lock(streamMutex);
-    std::cout << "Task at " << argc << " is executed" << std::endl;
-    return 0;
-}
-
-int main(int argc, char* argv[]){
+int main(){
 
     wxInitialize();
+
+    std::cout << "Generate random array of " << ARRAY_SIZE << " elements" << std::endl;
+
+    std::vector<int> v;
+    srand(wxGetLocalTime());
+    for (size_t i = 0; i < ARRAY_SIZE; ++i)
+        v.push_back(rand() % 1000);
+
     gmThreadPool* pool = new gmThreadPool;
-    std::vector<gmTask*> tasks;
-
-    std::cout << "Fill pool with 50 tasks..." << std::endl;
-    for (int i = 0; i < 50; ++i) {
-        tasks.push_back(new gmMainTask(gridmd_main, i, NULL));
-    }
-
-    wxSleep(1);
-
-    for (int i = 0; i < 50; ++i) {
-        pool->SubmitTask(tasks.at(i));
-    }
-
-    for (int i = 0; i < 50; ++i) {
-        tasks.at(i)->Result();
-    }
-
-    std::cout << "Add 7 long time task in pool" << std::endl;
-    std::vector<gmTask*> longTasks;
-
-    for (int i = 0; i < 7; ++i) {
-        longTasks.push_back(new gmScriptTask("sleep 120s"));
-    }
-
-    wxSleep(1);
-
-    for (int i = 0; i < 7; ++i) {
-        pool->SubmitTask(longTasks.at(i));
-    }
-
-    for (int i = 0; i < 7; ++i) {
-        wxSleep(1);
-        std::cout << "Long task at " << i << " is " << longTasks.at(i)->strStatus() << std::endl;
-    }
-
-    std::cout << "After 5 seconds all of long tasks will be killed.." << std::endl;
-    for(int i = 5 ;i > 0; --i) {
-        std::cout << i << "s" << std::endl;
-        wxSleep(1);
-    }
-
-    for (int i = 0; i < 7; ++i) {
-        longTasks.at(i)->Kill();
-    }
-
-    std::cout << "Long tasks have been killed!" << std::endl;
-
-    for (int i = 0; i < 7; ++i) {
-        std::cout << "Long task at " << i << " is " << longTasks.at(i)->strStatus() << std::endl;
-    }
-
-    wxSleep(3);
-    std::cout << "Add new tasks..." << std::endl;
-
-    for (int i = 0; i < 50; ++i) {
-        pool->SubmitTask(tasks.at(i));
-    }
-
-    wxSleep(2);
-
-    for (int i = 0; i < 50; ++i) {
-        tasks.at(i)->Result();
-    }
+    std::cout << "Start multithreading sort..." << std::endl;
+    merge_sort_multithreaded(v, pool->GetThreadsCount(), pool);
+    std::cout << "Finised!" << std::endl;
 
     delete pool;
+
     wxUninitialize();
     return 0;
 }

@@ -13,6 +13,7 @@ public:
     gmThreadPool(size_t threads = wxThread::GetCPUCount() - 1);
     ~gmThreadPool();
     void SubmitTask(gmTask* task);
+    size_t GetThreadsCount() {return mThreadsCount;}
 
 protected:
     virtual ExitCode Entry();

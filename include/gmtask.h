@@ -22,6 +22,7 @@ public:
         gmTASK_GRIDMD_MAIN = 0,
         gmTASK_COMMAND,
         gmTASK_NODEACTION,
+        gmTASK_MERGESORT
     };
 
     gmTask();
