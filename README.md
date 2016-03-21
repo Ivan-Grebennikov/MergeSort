@@ -1,11 +1,13 @@
-# Multithreading MergeSort
+## Multithreading MergeSort
 
-Build:
-1. Clone Repository:
+# Build:
+
+Clone Repository:
 ```
  git clone https://github.com/Ivan-Grebennikov/MergeSort
 ```
-2. Build sources:
+
+Build sources:
 ```
 cd MergeSort
 qmake
@@ -16,7 +18,8 @@ qmake
 cd build
 make
 ```
-3. Run:
+
+Run:
 ```
 ./MegreSort
 ```
