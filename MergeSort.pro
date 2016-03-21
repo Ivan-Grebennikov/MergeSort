@@ -1,15 +1,16 @@
 TARGET = MergeSort
 TEMPLATE = app
+CONFIG += release
 CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-wxCXXFLAGS = $$system(wx-config --cxxflags --unicode=yes --debug=yes)
-wxLinkOptions = $$system(wx-config --debug=yes --libs --unicode=yes)
+wxCXXFLAGS = $$system(wx-config --cxxflags --unicode=yes --debug=no)
+wxLinkOptions = $$system(wx-config --debug=no --libs --unicode=yes)
 
 LIBS += $$wxLinkOptions
-QMAKE_CXXFLAGS_DEBUG += $$wxCXXFLAGS
-QMAKE_CXXFLAGS_DEBUG += -O0
+QMAKE_CXXFLAGS_RELEASE += $$wxCXXFLAGS
+QMAKE_CXXFLAGS_RELEASE += -O0
 
 
 SOURCES += src/main.cpp \

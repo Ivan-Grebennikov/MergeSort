@@ -1,6 +1,6 @@
-## Multithreading MergeSort
+# Multithreading MergeSort
 
-# Build:
+## Build:
 
 Clone Repository:
 ```
@@ -11,15 +11,11 @@ Build sources:
 ```
 cd MergeSort
 qmake
-cd build
-make distclean
-cd ..
-qmake
-cd build
 make
 ```
 
 Run:
 ```
-./MegreSort
+cd build
+./MergeSort
 ```
