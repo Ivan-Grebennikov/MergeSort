@@ -16,6 +16,7 @@ make
 
 Run:
 ```
-cd build
 ./MergeSort
 ```
+
+Dependencies: wxBase
